@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  langextract-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - LANGEXTRACT_API_KEY=${LANGEXTRACT_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MAX_FILE_SIZE_MB=10
+      - ALLOWED_FILE_TYPES=txt,pdf,docx,xlsx,png,jpg,jpeg
+      - DEFAULT_MODEL=gemini-2.5-flash
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
